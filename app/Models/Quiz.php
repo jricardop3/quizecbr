@@ -17,7 +17,7 @@ class Quiz extends Model
 
     /**
      * Relacionamento: um quiz possui muitas perguntas.
-     * 
+     *
      * Cada quiz pode ter múltiplas perguntas associadas.
      * Este relacionamento permite acessar todas as perguntas de um quiz específico.
      */
@@ -28,7 +28,7 @@ class Quiz extends Model
 
     /**
      * Relacionamento: um quiz possui muitas participações.
-     * 
+     *
      * Cada quiz pode ter várias participações de diferentes usuários.
      * Este relacionamento permite acessar todas as participações relacionadas a um quiz.
      */
@@ -39,7 +39,7 @@ class Quiz extends Model
 
     /**
      * Relacionamento: um quiz possui muitas pontuações de usuários.
-     * 
+     *
      * Cada quiz registra a pontuação dos usuários que participam.
      * Este relacionamento permite acessar todas as pontuações dos usuários para um quiz específico.
      */
@@ -47,5 +47,4 @@ class Quiz extends Model
     {
         return $this->hasMany(UserScore::class);
     }
-
 }

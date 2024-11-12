@@ -1,0 +1,1518 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Quiz - Teste Quiz EBC",
+        "description": "API para gerenciamento de quizzes, participação de usuários e ranking.",
+        "version": "0.3.0"
+    },
+    "paths": {
+        "/api/login/admin": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Login do Administrador",
+                "operationId": "32b2f0df81f0b2db4c2e4b7267117e5c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "admin@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login bem-sucedido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bem-vindo, administrador!"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "7|LifStxIv7mEDSFK0KnnGeH4hJSlwHV1k1KMXawVZ50163912"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Admin User"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "admin@example.com"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "admin"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acesso negado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Acesso negado.\n *              Este email não pertence a um administrador."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Senha incorreta",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Senha incorreta. Verifique e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Formato de email inválido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "O campo email deve ser um endereço de email válido."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login/user": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Login de Usuário",
+                "operationId": "73c794e5c75557370358e091bbab49b0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Nome do Usuário"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "usuario@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login bem-sucedido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bem-vindo, usuário!"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "7|LifStxIv7mEDSFK0KnnGeH4hJSlwHV1k1KMXawVZ50163912"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Nome do Usuário"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "usuario@example.com"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "user"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Usuário não encontrado. Verifique o email informado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Nome do usuário incorreto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Nome de usuário incorreto. Verifique os dados e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acesso negado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Acesso negado. Este email não pertence a um usuário regular."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Logout do usuário",
+                "operationId": "ad65cbbd4e9f201619eae184a5961a98",
+                "responses": {
+                    "200": {
+                        "description": "Logout realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout realizado com sucesso."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Usuário não autenticado. Não há sessão ativa."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao realizar o logout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao realizar o logout."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocorreu um erro inesperado ao tentar encerrar a sessão. Por favor, tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/quizzes/{quizId}/questions": {
+            "get": {
+                "tags": [
+                    "Perguntas"
+                ],
+                "summary": "Lista todas as perguntas de um quiz",
+                "description": "Retorna uma lista de todas as perguntas associadas a um quiz específico.",
+                "operationId": "listQuestions",
+                "parameters": [
+                    {
+                        "name": "quizId",
+                        "in": "path",
+                        "description": "ID do quiz ao qual as perguntas pertencem",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de perguntas do quiz",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID da pergunta",
+                                                "type": "integer"
+                                            },
+                                            "quiz_id": {
+                                                "description": "ID do quiz",
+                                                "type": "integer"
+                                            },
+                                            "text": {
+                                                "description": "Texto da pergunta",
+                                                "type": "string"
+                                            },
+                                            "correct_answer": {
+                                                "description": "Resposta correta",
+                                                "type": "boolean"
+                                            },
+                                            "image": {
+                                                "description": "Caminho da imagem da pergunta",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Quiz não encontrado ou sem perguntas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Quiz não encontrado. Verifique o ID e tente novamente."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhuma pergunta encontrada para este quiz."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno ao listar as perguntas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao listar perguntas. Por favor, tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Perguntas"
+                ],
+                "summary": "Cria uma nova pergunta para um quiz",
+                "description": "Cria uma nova pergunta associada a um quiz específico.",
+                "operationId": "createQuestion",
+                "parameters": [
+                    {
+                        "name": "quizId",
+                        "in": "path",
+                        "description": "ID do quiz ao qual a pergunta pertence",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "text",
+                                    "correct_answer"
+                                ],
+                                "properties": {
+                                    "text": {
+                                        "description": "Texto da pergunta",
+                                        "type": "string"
+                                    },
+                                    "correct_answer": {
+                                        "description": "Resposta correta (true para verdadeiro, false para falso)",
+                                        "type": "boolean"
+                                    },
+                                    "image": {
+                                        "description": "Imagem opcional da pergunta (arquivo)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pergunta criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pergunta criada com sucesso!"
+                                        },
+                                        "question": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "ID da pergunta",
+                                                    "type": "integer"
+                                                },
+                                                "text": {
+                                                    "description": "Texto da pergunta",
+                                                    "type": "string"
+                                                },
+                                                "correct_answer": {
+                                                    "description": "Resposta correta",
+                                                    "type": "boolean"
+                                                },
+                                                "image": {
+                                                    "description": "Caminho da imagem da pergunta",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Quiz não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Quiz não encontrado. Verifique o ID e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Os dados fornecidos são inválidos."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "text": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O campo texto é obrigatório."
+                                                    }
+                                                },
+                                                "correct_answer": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O campo resposta correta é obrigatório."
+                                                    }
+                                                },
+                                                "image": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O campo imagem deve ser um arquivo do tipo: jpeg, png, jpg, gif."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno ao criar a pergunta",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao criar a pergunta."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocorreu um erro inesperado ao tentar salvar a pergunta. Por favor, tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/quizzes/{quizId}/questions/{id}": {
+            "get": {
+                "tags": [
+                    "Perguntas"
+                ],
+                "summary": "Exibe uma pergunta específica de um quiz",
+                "description": "Retorna os detalhes de uma pergunta específica associada a um quiz.",
+                "operationId": "showQuestion",
+                "parameters": [
+                    {
+                        "name": "quizId",
+                        "in": "path",
+                        "description": "ID do quiz ao qual a pergunta pertence",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da pergunta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes da pergunta",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "ID da pergunta",
+                                            "type": "integer"
+                                        },
+                                        "quiz_id": {
+                                            "description": "ID do quiz",
+                                            "type": "integer"
+                                        },
+                                        "text": {
+                                            "description": "Texto da pergunta",
+                                            "type": "string"
+                                        },
+                                        "correct_answer": {
+                                            "description": "Resposta correta",
+                                            "type": "boolean"
+                                        },
+                                        "image": {
+                                            "description": "Caminho da imagem da pergunta",
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pergunta não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Pergunta não encontrada. Verifique o ID e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao exibir a pergunta."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/questions/{id}": {
+            "put": {
+                "tags": [
+                    "Perguntas"
+                ],
+                "summary": "Atualiza uma pergunta",
+                "description": "Atualiza o texto, a resposta correta e a imagem de uma pergunta existente.",
+                "operationId": "updateQuestion",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da pergunta a ser atualizada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "text",
+                                    "correct_answer"
+                                ],
+                                "properties": {
+                                    "text": {
+                                        "description": "Texto da pergunta",
+                                        "type": "string"
+                                    },
+                                    "correct_answer": {
+                                        "description": "Resposta correta (true para verdadeiro, false para falso)",
+                                        "type": "boolean"
+                                    },
+                                    "image": {
+                                        "description": "Imagem opcional da pergunta (arquivo)",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pergunta atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pergunta atualizada com sucesso!"
+                                        },
+                                        "question": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "text": {
+                                                    "type": "string",
+                                                    "example": "Texto atualizado da pergunta"
+                                                },
+                                                "correct_answer": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "images/atualizada-imagem.jpg",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pergunta não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Pergunta não encontrada. Verifique o ID e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação. Verifique os dados e tente novamente."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "text": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "correct_answer": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "image": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao atualizar a pergunta",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro inesperado ao atualizar a pergunta."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Perguntas"
+                ],
+                "summary": "Exclui uma pergunta",
+                "description": "Exclui uma pergunta pelo seu ID e, se aplicável, remove a imagem associada.",
+                "operationId": "deleteQuestion",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da pergunta a ser excluída",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Pergunta e imagem removidas com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pergunta e imagem removidas com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pergunta não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Pergunta não encontrada. Verifique o ID e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao remover a pergunta",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao remover a pergunta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocorreu um erro inesperado ao tentar remover a pergunta.\n *              Por favor, tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/quizzes": {
+            "get": {
+                "tags": [
+                    "Quizzes"
+                ],
+                "summary": "Listar todos os quizzes",
+                "description": "Retorna uma lista com todos os quizzes disponíveis.",
+                "operationId": "listQuizzes",
+                "responses": {
+                    "200": {
+                        "description": "Lista de quizzes retornada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID do quiz",
+                                                "type": "integer"
+                                            },
+                                            "title": {
+                                                "description": "Título do quiz",
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "description": "Descrição do quiz",
+                                                "type": "string"
+                                            },
+                                            "image": {
+                                                "description": "Caminho da imagem do quiz",
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "description": "Data de criação do quiz",
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "updated_at": {
+                                                "description": "Data de atualização do quiz",
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum quiz encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhum quiz encontrado no momento."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao buscar os quizzes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao buscar os quizzes"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocorreu um erro inesperado ao tentar buscar os quizzes. Por favor, tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Quizzes"
+                ],
+                "summary": "Criação de um novo quiz",
+                "description": "Cria um novo quiz com título, descrição e imagem opcional.",
+                "operationId": "17442658f5bcce78980f375fe66c83f1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Meu Novo Quiz"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Descrição do quiz"
+                                    },
+                                    "image": {
+                                        "description": "Imagem opcional do quiz",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Quiz criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Quiz criado com sucesso!"
+                                        },
+                                        "quiz": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Meu Novo Quiz"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Descrição do quiz"
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "images/nome-da-imagem.jpg"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-11-10T01:12:39.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-11-10T01:12:39.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        },
+                                        "messages": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O campo título é obrigatório."
+                                                    }
+                                                },
+                                                "description": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O campo descrição é obrigatório."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao criar o quiz",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao criar o quiz"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Houve um problema ao salvar o quiz no banco de dados. Verifique os campos e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/quizzes/{id}": {
+            "get": {
+                "tags": [
+                    "Quizzes"
+                ],
+                "summary": "Exibir um quiz específico",
+                "description": "Retorna os detalhes de um quiz pelo seu ID.",
+                "operationId": "ce361b465ca18f66045654d0ed977db8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do quiz",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do quiz",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Meu Novo Quiz"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Descrição do quiz"
+                                        },
+                                        "image": {
+                                            "type": "string",
+                                            "example": "images/nome-da-imagem.jpg"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-11-10T01:12:39.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-11-10T01:12:39.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Quiz não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Quiz não encontrado. Verifique o ID e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Quizzes"
+                ],
+                "summary": "Excluir um quiz existente",
+                "operationId": "61dcdd818514499d9fbc968c684e17e8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do quiz a ser excluído",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Quiz e imagem removidos com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Quiz e imagem removidos com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Quiz não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Quiz não encontrado. Verifique o ID e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao remover o quiz",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao remover o quiz"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocorreu um erro inesperado ao tentar remover o quiz. Por favor, tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Quizzes"
+                ],
+                "summary": "Atualizar um quiz existente",
+                "operationId": "a1d5af5c6cedd926073dd698f4b8325b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do quiz a ser atualizado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "Título do quiz",
+                                        "type": "string",
+                                        "example": "Título Atualizado"
+                                    },
+                                    "description": {
+                                        "description": "Descrição do quiz",
+                                        "type": "string",
+                                        "example": "Descrição atualizada do quiz."
+                                    },
+                                    "image": {
+                                        "description": "Imagem do quiz (opcional)",
+                                        "type": "file",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Quiz atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Quiz atualizado com sucesso!"
+                                        },
+                                        "quiz": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Título Atualizado"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Descrição atualizada do quiz."
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "images/atualizado.jpg"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-11-10T01:12:39.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-11-10T02:15:47.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Quiz não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Quiz não encontrado. Verifique o ID e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro de validação."
+                                        },
+                                        "messages": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O campo título deve ser uma string."
+                                                    }
+                                                },
+                                                "image": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O campo imagem deve ser um arquivo do tipo: jpeg, png, jpg, gif, svg."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Autenticação",
+            "description": "Autenticação"
+        },
+        {
+            "name": "Perguntas",
+            "description": "Perguntas"
+        },
+        {
+            "name": "Quizzes",
+            "description": "Quizzes"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "sanctum": []
+        }
+    ]
+}

@@ -17,7 +17,7 @@ class UserScore extends Model
 
     /**
      * Relacionamento: a pontuação pertence a um usuário.
-     * 
+     *
      * Este relacionamento permite acessar o usuário a quem a pontuação pertence.
      * Cada pontuação está associada a um único usuário, refletindo o desempenho dele em um quiz específico.
      */
@@ -28,7 +28,7 @@ class UserScore extends Model
 
     /**
      * Relacionamento: a pontuação pertence a um quiz.
-     * 
+     *
      * Este relacionamento permite acessar o quiz associado à pontuação.
      * Cada pontuação está vinculada a um único quiz, permitindo monitorar o desempenho do usuário naquele quiz.
      */

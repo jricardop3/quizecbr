@@ -9,7 +9,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     protected $fillable = [
         'name',
@@ -29,7 +31,7 @@ class User extends Authenticatable
 
     /**
      * Relacionamento: um usuário pode ter várias participações em quizzes.
-     * 
+     *
      * Este relacionamento permite acessar todas as participações associadas a um usuário específico,
      * incluindo detalhes sobre os quizzes em que ele participou e as pontuações.
      */
@@ -40,7 +42,7 @@ class User extends Authenticatable
 
     /**
      * Relacionamento: um usuário possui muitas pontuações em quizzes.
-     * 
+     *
      * Cada usuário acumula pontuações em diferentes quizzes, que são registradas em UserScore.
      * Este relacionamento permite acessar as pontuações de um usuário.
      */
@@ -51,7 +53,7 @@ class User extends Authenticatable
 
     /**
      * Relacionamento: um usuário possui várias respostas a perguntas.
-     * 
+     *
      * Este relacionamento permite acessar todas as respostas (verdadeiras ou falsas)
      * que o usuário deu para perguntas em diferentes quizzes.
      */

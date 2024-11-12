@@ -18,7 +18,7 @@ class Question extends Model
 
     /**
      * Relacionamento: uma pergunta pertence a um quiz.
-     * 
+     *
      * Cada pergunta está associada a um único quiz.
      * Este relacionamento permite acessar o quiz ao qual a pergunta pertence.
      */
@@ -29,7 +29,7 @@ class Question extends Model
 
     /**
      * Relacionamento: uma pergunta possui muitas respostas de usuário.
-     * 
+     *
      * Uma pergunta pode ter várias respostas de diferentes usuários.
      * Este relacionamento permite acessar todas as respostas dos usuários para uma pergunta específica.
      */

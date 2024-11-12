@@ -18,7 +18,7 @@ class Participation extends Model
 
     /**
      * Relacionamento: uma participação pertence a um usuário.
-     * 
+     *
      * Cada registro de participação está vinculado a um único usuário.
      * Este relacionamento permite acessar o usuário que participou do quiz.
      */
@@ -29,7 +29,7 @@ class Participation extends Model
 
     /**
      * Relacionamento: uma participação pertence a um quiz.
-     * 
+     *
      * Cada participação está associada a um único quiz.
      * Este relacionamento permite acessar o quiz que o usuário participou.
      */

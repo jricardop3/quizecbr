@@ -18,7 +18,7 @@ class UserAnswer extends Model
 
     /**
      * Relacionamento: a resposta pertence a um usuário.
-     * 
+     *
      * Este relacionamento permite acessar o usuário que deu uma resposta específica.
      * Cada resposta está associada a um único usuário.
      */
@@ -29,7 +29,7 @@ class UserAnswer extends Model
 
     /**
      * Relacionamento: a resposta pertence a uma pergunta.
-     * 
+     *
      * Este relacionamento permite acessar a pergunta à qual a resposta se refere.
      * Cada resposta está vinculada a uma única pergunta dentro de um quiz.
      */
