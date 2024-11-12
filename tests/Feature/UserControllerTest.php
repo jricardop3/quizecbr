@@ -94,4 +94,29 @@ class UserControllerTest extends TestCase
         $this->actingAs($admin, 'sanctum');
         return $this;
     }
+    public function test_user_access_denied_to_protected_route()
+    {
+        $user = User::factory()->create(['role' => 'user']); // Usuário comum
+    
+        $response = $this->actingAs($user, 'sanctum')->getJson('/api/users');
+    
+        $response->assertStatus(403)
+                 ->assertJson([
+                     'error' => 'Acesso não autorizado. necéssario autorização de administrador',
+                 ]);
+    }
+    
+    public function test_admin_access_granted_to_protected_route()
+    {
+        $admin = User::factory()->create(['role' => 'admin']); // Usuário admin
+
+        $response = $this->actingAs($admin, 'sanctum')->getJson('/api/users');
+
+        $response->assertStatus(200)
+                ->assertJsonStructure([
+                    '*' => ['id', 'name', 'email', 'role'],
+                ]);
+    }
+
+
 }

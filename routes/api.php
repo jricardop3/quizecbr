@@ -12,9 +12,17 @@ use Illuminate\Support\Facades\Route;
     
     // Rota para registro de um novo usuário
     Route::post('/register/user', [UserController::class, 'store']);
-
+    
 // Rotas protegidas (requerem autenticação via Sanctum)
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     // Rotas de gerenciamento de usuários, acessíveis apenas para usuários autenticados
-    Route::apiResource('users', UserController::class)->except(['store']); // 'store' é excluído, pois está acessível sem autenticação
+    
+    Route::middleware('isAdmin')->group(function () {
+        // Rotas de gerenciamento de usuários, acessíveis apenas para usuários autenticados
+        Route::apiResource('users', UserController::class)->except(['store']); // 'store' é excluído, pois está acessível sem autenticação
+    
+        
+    });
+
+    
 });
