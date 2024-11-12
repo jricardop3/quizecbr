@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,34 +11,52 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role', // Adicionando a coluna role para diferenciar entre admin e user
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
+
+    /**
+     * Relacionamento: um usuário pode ter várias participações em quizzes.
+     * 
+     * Este relacionamento permite acessar todas as participações associadas a um usuário específico,
+     * incluindo detalhes sobre os quizzes em que ele participou e as pontuações.
+     */
+    public function participations()
+    {
+        return $this->hasMany(Participation::class);
+    }
+
+    /**
+     * Relacionamento: um usuário possui muitas pontuações em quizzes.
+     * 
+     * Cada usuário acumula pontuações em diferentes quizzes, que são registradas em UserScore.
+     * Este relacionamento permite acessar as pontuações de um usuário.
+     */
+    public function scores()
+    {
+        return $this->hasMany(UserScore::class);
+    }
+
+    /**
+     * Relacionamento: um usuário possui várias respostas a perguntas.
+     * 
+     * Este relacionamento permite acessar todas as respostas (verdadeiras ou falsas)
+     * que o usuário deu para perguntas em diferentes quizzes.
+     */
+    public function answers()
+    {
+        return $this->hasMany(UserAnswer::class);
+    }
 }
