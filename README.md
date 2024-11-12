@@ -11,11 +11,10 @@ Este projeto é um sistema de jogos de quiz onde administradores podem criar e g
 - [X] **L5 Swagger**: para documentação automática da API, permitindo visualizar e testar os endpoints durante o desenvolvimento.
         - Configuração concluída. Para gerar a documentação, use o comando:`php artisan l5-swagger:generate`
         - A documentação estará disponível no navegador em `localhost/api/documentation`.
-                -Docomentados até o momento: Auth, User, Quiz e QuestionsControllers.
+                -Docomentados até o momento: Auth, User, Quiz, Question e ParticipationControllers.
 - [X] **PHP CodeSniffer**: Instalado para manter um padrão de código consistente e legível.
         - Escanear o projeto para verificar conformidade com a PSR-12: `php vendor/bin/phpcs --standard=PSR12 app/`
         - Corrigir automaticamente com o PHP Code Beautifier and Fixer: `php vendor/bin/phpcbf --standard=PSR12 app/`
-
 
 ### 2. Banco de dados
 - [X] **Migrations** - Criação de migrations Quizzes, Questions, User_ansuers, User_scores, Participations (add de role a users)
@@ -31,6 +30,8 @@ Este projeto é um sistema de jogos de quiz onde administradores podem criar e g
                         -Configuração do UserFactory para incluir a criação de usuários com senha e função (user), o que auxilia nos testes de integração.
                         -QuizFactory: Criado para gerar quizzes com título, descrição e imagem fake, possibilitando cenários variados em testes de integração.
                         -QuestionFactory: Configurado para criar perguntas associadas a um quiz, com texto e resposta correta (true ou false).
+                        -ParticipationFactory: Configurado para criar perguntas associadas a user e um quiz, com score aleatório e uma data aleatória de uma semana até o momento
+
 ### 3. Controllers, Middlewares e Testes de Integração
 - [X] **AuthController** 
 - [X] **UserController** 
@@ -49,6 +50,12 @@ Este projeto é um sistema de jogos de quiz onde administradores podem criar e g
         - Tratamento para uploads de imagens em perguntas e lógica de remoção de arquivos ao atualizar ou excluir.
         - Validações de dados e retornos apropriados em caso de erros, permitindo integração com o front-end com mensagens claras.
         - Rotas configuradas para question (index, store, edit, update, delete)
+- [X] **QuestionController**
+        -Controlador responsável pelo gerenciamento das participações dos usuários em quizzes.
+        -Lógica para registrar as respostas dos usuários às perguntas de quizzes e armazenar as informações de participação no banco de dados.
+        -Implementação de funcionalidades para salvar o progresso do usuário, permitindo que ele avance nas perguntas sem perder os dados das respostas já fornecidas.
+        -Validações adequadas para garantir que as respostas sejam registradas corretamente, com retorno de mensagens claras em caso de erro.
+        -Rotas configuradas para participar de quizzes, incluindo os métodos store, update e show para gerenciar o registro e atualização de participações.
 
 - [X] **Testes**: Testes de Integração adicionados:
         - **AuthControllerTest**: cobre login e logout para usuários e administradores.
@@ -65,6 +72,18 @@ Este projeto é um sistema de jogos de quiz onde administradores podem criar e g
                 - Criação e listagem de perguntas com validação completa de dados.
                 - Atualização e exclusão de perguntas associadas a quizzes, verificando manutenção correta de relacionamentos e imagens.
                 - Respostas de erro apropriadas para falhas de validação e operações inválidas.
+        - **ParticipationTest**: cobre todos os métodos de QuestionController, incluindo:
+                -Testando o índice de participações:
+                        -Validação do retorno da listagem de participações de um quiz, com a verificação de que a estrutura JSON da resposta está correta, incluindo informações sobre a participação, usuário e quiz.
+                        -Teste de cenário onde não há participações registradas para um quiz, garantindo que o retorno seja adequado (status 404 e mensagem "Nenhuma participação encontrada").
+                -Testando a criação de participação:
+                        -Teste bem-sucedido de criação de participação, onde o usuário envia as respostas para um quiz, e a participação é registrada com sucesso no banco de dados.
+                        -Teste de cenário onde o quiz não é encontrado, garantindo que o erro seja tratado corretamente (status 404 e mensagem "Quiz não encontrado").
+                        -Validação de respostas inválidas, como a tentativa de enviar uma pergunta inexistente, verificando que os erros de validação são retornados de forma clara.
+                -Testando visualização de participação:
+                        -Teste de tentativa de visualizar uma participação inexistente, com retorno adequado (status 404 e mensagem "Participação não encontrada").
+                -Testando participação múltipla:
+                        -Validação de que um usuário não pode participar de um mesmo quiz mais de uma vez, retornando um erro adequado (status 400 e mensagem "Você já participou deste quiz").
 
 - [X] **IsAdmin**: Criação e implementação do middleware 'IsAdmin' para proteger rotas sensíveis, como o CRUD de usuários (exceto a rota de criação).
 

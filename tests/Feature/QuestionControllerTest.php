@@ -12,7 +12,7 @@ use App\Models\User;
 
 class QuestionControllerTest extends TestCase
 {
-    //use RefreshDatabase;
+    use RefreshDatabase;
 
     protected function actingAsAdmin()
     {

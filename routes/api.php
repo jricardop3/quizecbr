@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ParticipationController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\QuizController;
 use App\Http\Controllers\Api\UserController;
@@ -18,14 +19,17 @@ use Illuminate\Support\Facades\Route;
     
 // Rotas protegidas (requerem autenticação via Sanctum)
 Route::middleware('auth:sanctum')->group(function () {
-        // Rotas acessíveis para todos os usuários autenticados
+        // Rotas acessíveis para todos os usuários autenticados (user ou admin).
         Route::get('quizzes', [QuizController::class, 'index']);
         Route::get('quizzes/{quiz}', [QuizController::class, 'show']);
         Route::get('quizzes/{quizId}/questions', [QuestionController::class, 'index']);
         Route::get('quizzes/{quizId}/questions/{id}', [QuestionController::class, 'show']);
+        Route::apiResource('quizzes.participations', ParticipationController::class)->only(['index', 'store', 'show']);
+        Route::get('ranking/general', [ParticipationController::class, 'generalRanking']);
+        Route::get('ranking/quiz/{quizId}', [ParticipationController::class, 'quizRanking']);
     
         Route::middleware('isAdmin')->group(function () {
-            // Rotas de gerenciamento de usuários, acessíveis apenas para usuários autenticados
+            // Rotas de administrador, acessíveis apenas para usuários autenticados como admin.
             Route::apiResource('users', UserController::class)->except(['store']); // 'store' é excluído, pois está acessível sem autenticação
             Route::post('quizzes', [QuizController::class, 'store']);
             Route::patch('quizzes/{quiz}', [QuizController::class, 'update']);

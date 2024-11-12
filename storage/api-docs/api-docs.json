@@ -322,6 +322,638 @@
                 ]
             }
         },
+        "/api/quizzes/{$quiz->id}/participations": {
+            "get": {
+                "tags": [
+                    "Participações"
+                ],
+                "summary": "Listar todas as participações",
+                "description": "Retorna todas as participações com as informações do usuário e do quiz associadas.",
+                "operationId": "5ed1c13774f640f936f96b186ba433d7",
+                "responses": {
+                    "200": {
+                        "description": "Lista de participações encontrada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID da participação",
+                                                "type": "integer"
+                                            },
+                                            "user_id": {
+                                                "description": "ID do usuário",
+                                                "type": "integer"
+                                            },
+                                            "quiz_id": {
+                                                "description": "ID do quiz",
+                                                "type": "integer"
+                                            },
+                                            "score": {
+                                                "description": "Pontuação da participação",
+                                                "type": "integer"
+                                            },
+                                            "completed_at": {
+                                                "description": "Data e hora de conclusão da participação",
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "user": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "ID do usuário",
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "description": "Nome do usuário",
+                                                        "type": "string"
+                                                    },
+                                                    "email": {
+                                                        "description": "Email do usuário",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "quiz": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "ID do quiz",
+                                                        "type": "integer"
+                                                    },
+                                                    "title": {
+                                                        "description": "Título do quiz",
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "description": "Descrição do quiz",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma participação encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhuma participação encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao buscar as participações",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao buscar as participações."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocorreu um problema ao tentar buscar as participações.\n     *              Por favor, tente novamente mais tarde."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/quizzes/{quizId}/participations": {
+            "post": {
+                "tags": [
+                    "Participações"
+                ],
+                "summary": "Registrar a participação em um quiz",
+                "description": "Registra a participação de um usuário em um quiz específico,\n     *     armazena as respostas e calcula a pontuação com base nas respostas corretas.",
+                "operationId": "storeParticipation",
+                "parameters": [
+                    {
+                        "name": "quizId",
+                        "in": "path",
+                        "description": "ID do quiz para registrar a participação",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "answers"
+                                ],
+                                "properties": {
+                                    "answers": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "question_id",
+                                                "answer"
+                                            ],
+                                            "properties": {
+                                                "question_id": {
+                                                    "description": "ID da pergunta",
+                                                    "type": "integer"
+                                                },
+                                                "answer": {
+                                                    "description": "Resposta do usuário: true para verdadeiro, false para falso",
+                                                    "type": "boolean"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Participação registrada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "participation": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "quiz_id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "score": {
+                                                    "type": "integer",
+                                                    "example": 40
+                                                },
+                                                "completed_at": {
+                                                    "type": "string",
+                                                    "example": "2024-11-10T14:48:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "user_score": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "quiz_id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "score": {
+                                                    "type": "integer",
+                                                    "example": 40
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Participação registrada com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Quiz não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Quiz não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Participação já registrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Você já participou deste quiz."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Os dados fornecidos são inválidos."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "answers": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O campo answers é obrigatório."
+                                                    }
+                                                },
+                                                "answers.0.question_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O campo question_id é obrigatório."
+                                                    }
+                                                },
+                                                "answers.0.answer": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O campo answer é obrigatório."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/quizzes/{quizId}/participations/{id}": {
+            "get": {
+                "tags": [
+                    "Participações"
+                ],
+                "summary": "Exibir uma participação específica",
+                "description": "Retorna os detalhes de uma participação específica de um usuário em um quiz.",
+                "operationId": "showParticipation",
+                "parameters": [
+                    {
+                        "name": "quizId",
+                        "in": "path",
+                        "description": "ID do quiz ao qual a participação está associada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da participação a ser exibida",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes da participação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "ID da participação",
+                                            "type": "integer"
+                                        },
+                                        "user_id": {
+                                            "description": "ID do usuário que participou",
+                                            "type": "integer"
+                                        },
+                                        "quiz_id": {
+                                            "description": "ID do quiz",
+                                            "type": "integer"
+                                        },
+                                        "score": {
+                                            "description": "Pontuação obtida na participação",
+                                            "type": "integer"
+                                        },
+                                        "completed_at": {
+                                            "description": "Data e hora de conclusão da participação",
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "ID do usuário",
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "description": "Nome do usuário",
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "description": "Email do usuário",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "quiz": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "ID do quiz",
+                                                    "type": "integer"
+                                                },
+                                                "title": {
+                                                    "description": "Título do quiz",
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "description": "Descrição do quiz",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Participação não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Participação não encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/ranking/general": {
+            "get": {
+                "tags": [
+                    "Ranking"
+                ],
+                "summary": "Obter o ranking geral de jogadores",
+                "description": "Retorna o ranking geral com base na soma das pontuações em todas as participações.",
+                "operationId": "43edf2d90e896499fbb18c4992adae98",
+                "responses": {
+                    "200": {
+                        "description": "Ranking geral gerado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID do usuário",
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "description": "Nome do usuário",
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "description": "Email do usuário",
+                                                "type": "string"
+                                            },
+                                            "score": {
+                                                "description": "Pontuação total do usuário",
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma participação encontrada para gerar o ranking",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhuma participação encontrada para gerar o ranking."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao gerar o ranking geral",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao gerar o ranking geral."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocorreu um problema inesperado ao tentar gerar o ranking.\n     *              Tente novamente mais tarde."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/ranking/quiz/{quizId}": {
+            "get": {
+                "tags": [
+                    "Ranking"
+                ],
+                "summary": "Obter o ranking dos usuários para um quiz específico",
+                "description": "Retorna o ranking dos usuários com base na pontuação de um quiz específico.",
+                "operationId": "quizRanking",
+                "parameters": [
+                    {
+                        "name": "quizId",
+                        "in": "path",
+                        "description": "ID do quiz",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ranking dos usuários para o quiz",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID do usuário",
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "description": "Nome do usuário",
+                                                "type": "string",
+                                                "example": "John Doe"
+                                            },
+                                            "email": {
+                                                "description": "Email do usuário",
+                                                "type": "string",
+                                                "example": "john.doe@example.com"
+                                            },
+                                            "score": {
+                                                "description": "Pontuação do usuário para o quiz",
+                                                "type": "integer",
+                                                "example": 50
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Quiz não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Quiz não encontrado. Verifique o ID e tente novamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Nenhuma pontuação encontrada para este quiz",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhuma pontuação encontrada para este quiz."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno ao gerar o ranking",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao tentar gerar o ranking."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/quizzes/{quizId}/questions": {
             "get": {
                 "tags": [
@@ -1490,6 +2122,14 @@
         {
             "name": "Autenticação",
             "description": "Autenticação"
+        },
+        {
+            "name": "Participações",
+            "description": "Participações"
+        },
+        {
+            "name": "Ranking",
+            "description": "Ranking"
         },
         {
             "name": "Perguntas",
