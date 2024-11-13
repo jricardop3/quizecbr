@@ -3,7 +3,7 @@
 ## Visão Geral
 Este projeto é um sistema de jogos de quiz onde administradores podem criar e gerenciar quizzes com perguntas do tipo verdadeiro ou falso, e os usuários podem participar desses quizzes, acumular pontos e visualizar um ranking.
 
-## Desenvolvimento:
+## Desenvolvimento API: 
 
 ### 1. Instalação de dependencias
 - [X] **Laravel Sanctum**: para autenticação de usuários e proteção de rotas de API, proporcionando segurança e gerenciamento de tokens.
@@ -87,7 +87,18 @@ Este projeto é um sistema de jogos de quiz onde administradores podem criar e g
 
 - [X] **IsAdmin**: Criação e implementação do middleware 'IsAdmin' para proteger rotas sensíveis, como o CRUD de usuários (exceto a rota de criação).
 
+## Desenvolvimento Front-End: 
 
+### 1. Instalação de dependencias
+- [X] **Vue.js**: `npm install vue@3`
+        -Configuração do App.js para montar o component App.vue dentro do arquivo do Welcome.blade.php (padrão do laravel).
+- [X] **vue-router**: `npm install vue-router@4 --legacy-peer-deps`
+        -Criação e configuração do arquivo router.js
+- [X] **Bootstrap**: `link cdn https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css`  
+                      `https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js`
 
+### 2. Views e components.
+- [X] **App.vue**: -Componente base para montar todas as views e components da aplicação, incluindo um menu de navegação acessivel em todas as views.
+- [X] **HomeView.vue**: -Pagina inicial da aplicação.
 
 
