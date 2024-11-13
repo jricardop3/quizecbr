@@ -87,18 +87,39 @@ Este projeto é um sistema de jogos de quiz onde administradores podem criar e g
 
 - [X] **IsAdmin**: Criação e implementação do middleware 'IsAdmin' para proteger rotas sensíveis, como o CRUD de usuários (exceto a rota de criação).
 
-## Desenvolvimento Front-End: 
+## Desenvolvimento Front-End:
 
-### 1. Instalação de dependencias
+### 1. Instalação de dependências
 - [X] **Vue.js**: `npm install vue@3`
-        -Configuração do App.js para montar o component App.vue dentro do arquivo do Welcome.blade.php (padrão do laravel).
+  - Configuração do `App.js` para montar o componente `App.vue` dentro do arquivo `Welcome.blade.php` (padrão do Laravel).
 - [X] **vue-router**: `npm install vue-router@4 --legacy-peer-deps`
-        -Criação e configuração do arquivo router.js
-- [X] **Bootstrap**: `link cdn https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css`  
-                      `https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js`
+  - Criação e configuração do arquivo `router.js` para gerenciar as rotas da aplicação.
+- [X] **Bootstrap**: 
+  - `link cdn https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css`
+  - `https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js`
 
-### 2. Views e components.
-- [X] **App.vue**: -Componente base para montar todas as views e components da aplicação, incluindo um menu de navegação acessivel em todas as views.
-- [X] **HomeView.vue**: -Pagina inicial da aplicação.
+### 2. Views e Components
+- [X] **App.vue**: Componente base para montar todas as views e componentes da aplicação, incluindo um menu de navegação acessível em todas as views.
+- [X] **HomeView.vue**: Página inicial da aplicação.
+- [X] **RegisterUserView.vue**: Página de registro de usuários.
+- [X] **LoginUserView.vue**: Página de login de usuários.
+- [X] **LoginAdminView.vue**: Página de login do administrador.
+- [X] **QuizView.vue**: Página de exibição dos quizzes cadastrados.
+- [X] **AnswerQuizView.vue**: Página de exibição das perguntas do quiz selecionado.
+- [X] **DashboardAdminView.vue**: Painel de administração com visualização e gerenciamento de quizzes e perguntas.
+- [X] **QuizCreateView.vue**: Página para criação de quizzes.
+- [X] **QuizEditView.vue**: Página para edição de quizzes.
+- [X] **QuestionCreateView.vue**: Página para criação de perguntas.
+- [X] **QuestionEditView.vue**: Página para edição de perguntas.
+
+### 3. Lógica e Funcionalidades
+- [X] **CRUD completo**: Implementação da lógica de criação, leitura, atualização e exclusão (CRUD) para quizzes e perguntas.
+- [X] **Rotas protegidas**: Implementação de rotas protegidas para acesso de administrador (login via token de autenticação).
+- [X] **Exclusão de quizzes e perguntas**: Funcionalidade de exclusão de quizzes e perguntas com confirmação de ação.
+- [X] **Menu de navegação**: Implementação de um menu fixo, incluindo um toggle dropdown para dispositivos móveis e links diretos para quizzes e páginas de edição.
+- [X] **Submenu interno**: Criação de um componente `NavDashboard` com submenu para navegação interna no dashboard de administração.
+
+
+
 
 

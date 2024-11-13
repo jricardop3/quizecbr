@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::apiResource('users', UserController::class)->except(['store']); // 'store' é excluído, pois está acessível sem autenticação
             Route::post('quizzes', [QuizController::class, 'store']);
             Route::patch('quizzes/{quiz}', [QuizController::class, 'update']);
+            Route::put('quizzes/{quiz}', [QuizController::class, 'update']);
             Route::delete('quizzes/{quiz}', [QuizController::class, 'destroy']);
             Route::post('quizzes/{quizId}/questions', [QuestionController::class, 'store']);
             Route::patch('questions/{id}', [QuestionController::class, 'update']);
