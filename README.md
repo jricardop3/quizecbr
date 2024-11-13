@@ -119,7 +119,104 @@ Este projeto é um sistema de jogos de quiz onde administradores podem criar e g
 - [X] **Menu de navegação**: Implementação de um menu fixo, incluindo um toggle dropdown para dispositivos móveis e links diretos para quizzes e páginas de edição.
 - [X] **Submenu interno**: Criação de um componente `NavDashboard` com submenu para navegação interna no dashboard de administração.
 
+## Dockerização:
+
+### 1. **Dockerfile**
+- [X] Criado um `Dockerfile` para configurar o ambiente, incluindo PHP, Composer, Node.js e Nginx.
+- [X] Configuração de permissões para garantir que o Laravel consiga escrever nos diretórios..
+
+### 2. **docker-compose.yml**
+- [X] Configurado um arquivo `docker-compose.yml` para orquestrar os containers PHP, MySQL e Nginx.
+- [X] Definidos volumes para persistência de dados do MySQL e refletir alterações no código sem reiniciar os containers.
+
+### 3. **Banco de Dados MySQL**
+- [X] Configurado MySQL com um banco de dados `quizecbr`, usuário e senha via variáveis de ambiente no `docker-compose.yml`.
+
+### 4. **Comandos para Build e Execução**
+- [X] Rodamos `docker build -t quizecbr .` para criar a imagem Docker.
+- [X] Inicializamos os containers com `docker-compose up -d`.
+
+### 5. **Execução da Aplicação**
+- [X] A aplicação foi acessada via `http://localhost:8080`, com todos os containers comunicando-se corretamente.
+
+### 6. **Finalização**
+- [X] Executado `npm run build` para compilar o Vue.js em arquivos otimizados para produção, finalizando a dockerização do projeto.
+- [X] Executado `php artisan migrate` Testar o banco de dados do container.
+- [X] Executado `php artisan test` Todos os testes passaram com sucesso.
+- [X] Executado `php artisan db:seed` Gerando o usuário admin para testes manuais da aplicação.
+
+# Manual de Instalação - QuizECBR
+
+Este manual contém todas as etapas necessárias para instalar e configurar a aplicação **QuizECBR** no seu ambiente local ou servidor. A aplicação utiliza **Laravel** para o backend e **Vue.js** para o frontend, além de ser containerizada utilizando **Docker**.
+
+## Requisitos
+
+-Antes de começar, verifique se você tem os seguintes requisitos no seu ambiente de desenvolvimento:
+
+- **Docker** e **Docker Compose** instalados
+- **Node.js** (recomendado v14 ou superior) – Para compilar o frontend com npm
+- **PHP 8.1 ou superior**
+- **Composer** (para gerenciamento de dependências PHP)
+- **MySQL** (versão 5.7 ou superior)
+- **Git** (opcional para clonar o repositório)
+
+## Etapas de Instalação
+
+### 1. Clonar o Repositório (se necessário)
+
+-Caso não tenha o projeto em sua máquina, clone o repositório:
+
+```bash
+git clone https://github.com/seu-usuario/quizecbr.git
+cd quizecbr
+mv .env.example .env
+```
+
+### 2. Construir o Container com Docker
+-Na raiz do projeto, execute o seguinte comando para construir os containers e rodar a aplicação:
+```bash
+docker-compose up -d --build
+```
+-Este comando irá construir os containers necessários, instalar as dependências PHP via Composer, compilar o frontend com npm e iniciar os containers em segundo plano.
+
+### 3. Rodar as Migrações e Seeders
+-Rodar as migrações para criar as tabelas no banco de dados:
+```bash
+docker-compose exec app php artisan migrate
+```
+-Rodar o seeder para criar o usuário administrador:
+```bash
+docker-compose exec app php artisan db:seed
+```
+-Criar o link simbólico para o armazenamento de arquivos (para upload de imagens):
+```bash
+docker-compose exec app php artisan storage:link
+```
+### 4. Integridade da aplicação
+-Verifique a integridade da aplicação rodando os testes de integração:
+```bash
+docker-compose exec app php artisan test
+```
+-Verifique conformidade com PSR12:
+```bash
+php vendor/bin/phpcs --standard=PSR12 app/
+```
+-Verifique ajustar apontamentos PSR12:
+```bash
+php vendor/bin/phpcbf --standard=PSR12 app/
+```
+Este comando irá executar todos os testes da aplicação, garantindo que todos os fluxos funcionais estejam funcionando corretamente.
+### 5. Acessar a Aplicação
+-Após a construção dos containers e execução dos testes, você pode acessar a aplicação através de seu navegador em:
+```bash
+http://localhost:8080
+```
+-Documentação da API:
+```bash
+http://localhost:8080/api/documentation
+```
+## Finalizando
 
 
-
+### Com a aplicação configurada, você pode acessar as funcionalidades do sistema de quizzes, fazer login como administrador ou usuário e começar a interagir com a plataforma.
 
