@@ -170,6 +170,7 @@ Este manual contém todas as etapas necessárias para instalar e configurar a ap
 git clone https://github.com/seu-usuario/quizecbr.git
 cd quizecbr
 mv .env.example .env
+composer install
 ```
 
 ### 2. Construir o Container com Docker
@@ -188,6 +189,7 @@ docker-compose exec app php artisan migrate
 ```bash
 docker-compose exec app php artisan db:seed
 ```
+Acessos de administrador: email: admin@example.com e senha: password.
 -Criar o link simbólico para o armazenamento de arquivos (para upload de imagens):
 ```bash
 docker-compose exec app php artisan storage:link
