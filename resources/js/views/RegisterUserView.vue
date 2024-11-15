@@ -41,7 +41,7 @@
           localStorage.setItem('userData', JSON.stringify(response.data.user));
   
           console.log('Registro bem-sucedido:', response.data);
-          this.$router.push('/');
+          this.$router.push('/login-user');
         } catch (err) {
           this.error = 'Erro ao registrar. Verifique suas informações.';
         }
